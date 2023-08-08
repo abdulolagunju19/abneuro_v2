@@ -1,0 +1,228 @@
+---
+title: "Python: Let's Run some Statistical Tests on that Kaggle Data."
+publishedAt: '2021-07-14'
+summary: 'I provide a tutorial on performing t tests and chi-square tests on a Kaggle Insurance dataset.'
+---
+
+# Tutorials
+
+### Now, let's see if we can perform some statistical tests on the data.
+
+This is a continuation of my blog post on using python to analyze data. The link to that blog post is here: [Kaggle Data Analysis Blog Post](https://abneuro.vercel.app/simplestats/KaggleData)
+
+In this blog post, we will be taking a look a code that will perform t tests and chi squared tests on medical insurance data: [Medical Insurance Kaggle](https://www.kaggle.com/mirichoi0218/insurance)
+
+### Importing our modules
+```python:stats.py
+#import libraries needed
+import pandas as pd
+import numpy as np
+#don't want to see warnings on the console, usually about old functions like distplot
+import warnings
+warnings.filterwarnings('ignore') 
+
+#We have gotten a little intro to the data, lets run some tests
+from scipy.stats import ttest_ind
+from   scipy.stats import chi2_contingency 
+
+#pass in dataframe (df) csv file from github
+df = pd.read_csv("../csv_files/main/insurance.csv")
+```
+Do you see anything different about the libraries I imported from the other blog post? Yes! I added import ttest_ind to perform my t test and import chi2_contingency so that I can perform my chi squared test.
+
+### Let's do some t testing
+```python:stats.py
+def Series_stats(var, category, prop1, prop2):
+    # Step 1: State the null and alternative hypothesis and select a level of significance is 5% or 0.05
+    # Step 2: Collect data and calculate the values of test statistic
+    #lets explain s1 with example
+    #(var='charges',category='smoker',prop1='yes',prop2='no')
+    #we are looking at whether charges different for smokers and non smokers
+    #s1 is data for yes(prop1) smokers(category) and their charges(var)
+    s1 = df[(df[category]==prop1)][var]
+    #s2 is for non smokers
+    s2 = df[(df[category]==prop2)][var]
+    
+    #use t test function to get t and p values
+    t, p = ttest_ind(s1,s2,equal_var=False)
+
+    print(f"Two-sample t-test results:\nT statistic: {t:.5f}, P value: {p}\n")
+# Step 3: Compare the probability of t statistic with p value
+    if ((p < 0.05) and (np.abs(t) > 1.96)):
+        print(f"Our conclusion: since the P value of {p} is less than alpha = 0.05, ")
+        print(f"We REJECT the Null Hypothesis and state that: \
+              \nat a 5% significance level, the mean {var} of {prop1}-{category} \
+               and {prop2}-{category} are not equal.")
+        print(f"\nYES, the {var} of {prop1}-{category} differs significantly from \
+              {prop2}-{category} in the insurance dataset.")
+        print(f"The mean value of {var} for {prop1}-{category} is \
+              {s1.mean():.2f} and for {prop2}-{category} is {s2.mean():.2f}")
+    else:
+        print(f"Our conclusion: since the P value of {p} is greater than alpha = 0.05, ")
+        print(f"We FAIL to Reject the Null Hypothesis and state that: \
+              \nat a 5% significance level, the mean {var} of \
+            {prop1}-{category} and {prop2}-{category} are equal.")
+        print(f"\nNO, the {var} of {prop1}-{category} NOT differ significantly from \
+              {prop2}-{category} in the insurance dataset")
+        print(f"The mean value of {var} for {prop1}-{category} is \
+              {s1.mean():.2f} and for {prop2}-{category} is {s2.mean():.2f}")
+    return "\nYou have completed your t-test. \n"
+```
+Wow! That is a lot of code. Don't worry, we'll go over what it means. By using def, I am creating a function called Series_stats to perform t tests. This is so I can perform lots of t tests easily on different groups in my dataset.
+
+Into Series_stats, I am feeding these variables(var, category, prop1, prop2). These are variables that my function will use to produce some sort of answer. Think about a function like a machine. I feed this machine a several things: variable(var), category, property1(prop1), and property2(prop2). The machine will spit out a p value, t statistic, and the conclusion of my t test.
+
+In the following code => 
+
+sample1 =  `df[(df[category]==prop1)][var]`
+
+I am getting the first sample for my t test. The dataset I am using is df, and I am choosing a certain subset of data from df. 
+
+For example, category might be equal to smoker, prop1 might be equal to yes, and var might be equal to charges. My first sample is the charges of smokers in the medical insurance dataset. 
+
+In that case, the computer would run the function with => 
+
+sample1 =  `df[(df["smoker"]=="yes")]["charges"]`
+
+Then, sample2 would have a category equal to smoker, prop2 would be equal to no, and var would still be equal to charges. My second sample is the charges of non-smokers in the medical insurance dataset. 
+
+In that case, the computer would run the function with => 
+
+sample2 =  `df[(df["smoker"]=="no")]["charges"]`
+
+When I write => 
+
+t, p = ttest_ind(sample1,sample2,equal_var = False)
+
+The function ttest_ind that we imported earlier will perform the t test and crate values for the t statistic and p value. (I'm also not assuming that the populations have equal variance.)
+
+We then show the t statistic and p value. We also check whether our t statistic is greater than the critical value, and the p value is less than 0.05. If that is the case, we reject the null hypothesis that the charges are different for smokers and non-smokers. That is our t test!
+
+To display my code with variables, I use something called f strings that you may find helpful.
+
+### The chi squared test
+```python:stats.py
+def chisquare_stats(category1, category2):
+    #frequency table of values 
+    contigency= pd.crosstab(df[category1], df[category2])
+    #chi2_contingency does chi square test for us
+    chi2, p, dof, exp_freq = chi2_contingency(contigency)
+    print(f"Chi-square statistic: {chi2:.2f}, Pvalue: {p:.2f}, \
+          Degree of freedom: {dof}, \nexpected frequencies: \n {exp_freq}")
+    if (p < 0.05):
+        return(f"Since the P value of {p} is less than alpha = 0.05, \
+               We Reject the Null Hypothesis.\n") 
+    else:
+        return(f"Since the P value of {p} is greater than alpha = 0.05, \
+               We failed to reject Null Hypothesis.\n")
+```
+In our chi squared test, we are checking whether we are getting data that we expect. For example, we might check if the number of males and females in each region of our dataset is expected. For our function chisquare_stats, we will feed it two categories. One will be the region, the other will be the sex of the person with a medical insurance charge. 
+
+We will then use chi2_contingency and a contingency table using pd.crosstab (to create a table showing the relationship of the two variables) to perform our chi squared test. We have our p value, and we can then reject or fail to reject our null hypothesis (in this case, that the proportion of males and females in each region is not significantly different).
+```python:stats.py
+#perform t test: are two groups different from one another significantly?
+#Do charges of people who smoke differ significantly from the people who don't?
+Series_stats('charges','smoker','yes','no')
+
+#Does BMI of males differ significantly from that of females?
+Series_stats('bmi','sex','male','female')
+
+#chi square test (is there a relationship between 2 variables)
+#Are there different amounts of smokers for each region
+chisquare_stats("region", "smoker")
+
+#Do we expect the proportion of males and females in each region
+chisquare_stats("region", "sex")
+```
+In the code above, you will call on your function and it will return the results of the tests quite clearly. 
+
+You can perform two-sample t tests and chi squared tests with this information.
+
+I learned how to do these analyses from these kaggle pages: 
+1. [Insurance claims- EDA &Hypothesis Testing](https://www.kaggle.com/yogidsba/insurance-claims-eda-hypothesis-testing)
+2. [Exploratory Data Analysis](https://www.kaggle.com/nabamitachakraborty/exploratory-data-analysis)
+
+Enjoy!
+
+![Westbrook](/images/dancing.gif)
+
+### All of the Code:
+```python:stats.py
+#import libraries needed
+import pandas as pd
+import numpy as np
+#don't want to see warnings on the console, usually about old functions like distplot
+import warnings
+warnings.filterwarnings('ignore') 
+
+#We have gotten a little intro to the data, lets run some tests
+from scipy.stats import ttest_ind
+from   scipy.stats import chi2_contingency 
+
+#pass in dataframe (df) csv file from github
+df = pd.read_csv("../csv_files/main/insurance.csv")
+
+def Series_stats(var, category, prop1, prop2):
+    # Step 1: State the null and alternative hypothesis and select a level of significance is 5% or 0.05
+    # Step 2: Collect data and calculate the values of test statistic
+    #lets explain s1 with example
+    #(var='charges',category='smoker',prop1='yes',prop2='no')
+    #we are looking at whether charges different for smokers and non smokers
+    #s1 is data for yes(prop1) smokers(category) and their charges(var)
+    s1 = df[(df[category]==prop1)][var]
+    #s2 is for non smokers
+    s2 = df[(df[category]==prop2)][var]
+    
+    #use t test function to get t and p values
+    t, p = ttest_ind(s1,s2,equal_var=False)
+
+    print(f"Two-sample t-test results:\nT statistic: {t:.5f}, P value: {p}\n")
+# Step 3: Compare the probability of t statistic with p value
+    if ((p < 0.05) and (np.abs(t) > 1.96)):
+        print(f"Our conclusion: since the P value of {p} is less than alpha = 0.05, ")
+        print(f"We REJECT the Null Hypothesis and state that: \
+              \nat a 5% significance level, the mean {var} of {prop1}-{category} \
+               and {prop2}-{category} are not equal.")
+        print(f"\nYES, the {var} of {prop1}-{category} differs significantly from \
+              {prop2}-{category} in the insurance dataset.")
+        print(f"The mean value of {var} for {prop1}-{category} is \
+              {s1.mean():.2f} and for {prop2}-{category} is {s2.mean():.2f}")
+    else:
+        print(f"Our conclusion: since the P value of {p} is greater than alpha = 0.05, ")
+        print(f"We FAIL to Reject the Null Hypothesis and state that: \
+              \nat a 5% significance level, the mean {var} of \
+            {prop1}-{category} and {prop2}-{category} are equal.")
+        print(f"\nNO, the {var} of {prop1}-{category} NOT differ significantly from \
+              {prop2}-{category} in the insurance dataset")
+        print(f"The mean value of {var} for {prop1}-{category} is \
+              {s1.mean():.2f} and for {prop2}-{category} is {s2.mean():.2f}")
+    return "\nYou have completed your t-test. \n"
+
+def chisquare_stats(category1, category2):
+    #frequency table of values 
+    contigency= pd.crosstab(df[category1], df[category2])
+    #chi2_contingency does chi square test for us
+    chi2, p, dof, exp_freq = chi2_contingency(contigency)
+    print(f"Chi-square statistic: {chi2:.2f}, Pvalue: {p:.2f}, \
+          Degree of freedom: {dof}, \nexpected frequencies: \n {exp_freq}")
+    if (p < 0.05):
+        return(f"Since the P value of {p} is less than alpha = 0.05, \
+               We Reject the Null Hypothesis.\n") 
+    else:
+        return(f"Since the P value of {p} is greater than alpha = 0.05, \
+               We failed to reject Null Hypothesis.\n")
+               
+#perform t test: are two groups different from one another significantly?
+#Do charges of people who smoke differ significantly from the people who don't?
+Series_stats('charges','smoker','yes','no')
+
+#Does BMI of males differ significantly from that of females?
+Series_stats('bmi','sex','male','female')
+
+#chi square test (is there a relationship between 2 variables)
+#Are there different amounts of smokers for each region
+chisquare_stats("region", "smoker")
+
+#Do we expect the proportion of males and females in each region
+chisquare_stats("region", "sex")
+```
