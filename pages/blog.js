@@ -29,7 +29,8 @@ const description = "Abdul-Samad Olagunju's personal blog. Here, I write about n
 export default function Blog({ posts }) {
     const [searchValue, setSearchValue] = useState('');
 
-    //sort the blog posts, filter posts to only select for user input in the search bar
+    //sort the blog posts and store sorted posts in object
+    //filter posts to only select for user input in the search bar
     const filteredBlogPosts = posts
         .sort(
             (a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
@@ -45,6 +46,7 @@ export default function Blog({ posts }) {
         dark: 'gray.700'
     };
 
+    //use title of markdown page (accessed from frontmatter) as key to avoid key iterator errors
     return (
         <>
             <NextSeo

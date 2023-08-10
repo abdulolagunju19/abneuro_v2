@@ -1,5 +1,6 @@
 export default async (req, res) => {
     const url = "https://api.github.com/users/abdulolagunju19/repos";
+    //use fetch api to fetch list of repositories using github api
     const response = await fetch(url);
     const json = await response.json();
 

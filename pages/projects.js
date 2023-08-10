@@ -30,6 +30,7 @@ export default function Projects() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     //swr is react hooks library for fetching data
+    //fetch list of github repositories using api endpoint in /api/github 
     const { data, error } = useSWR('/api/github', fetcher);
 
     if (error) {

@@ -49,12 +49,14 @@ export default function App({ Component, pageProps }) {
 
   const router = useRouter();
 
+  //every time there is a route change, the nprogress loading bar is called
   useEffect(() => {
     router.events.on('routeChangeStart', () => NProgress.start()); 
     router.events.on('routeChangeComplete', () => NProgress.done()); 
     router.events.on('routeChangeError', () => NProgress.done()); 
   }, [router])
 
+  //necessary so Chakra UI can be used
   return (
     <ChakraProvider resetCSS theme={customTheme}>
       <ColorModeProvider

@@ -30,6 +30,7 @@ export default function ContactMe() {
     dark: 'gray.400'
   };
 
+  //required for sending email upon button click
   const router = useRouter();
 
   return (
