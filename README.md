@@ -43,7 +43,7 @@ Markdown makes it really easy to write blog posts.
 
 **Here is a simple diagram showing how markdown files can be parsed in Next.js:**
 
-<img width="60%" src="./public/images/architecture.png" alt="architecture" /> 
+<img width="100%" src="./public/images/architecture.png" alt="architecture" /> 
 
 ### API Routes
 - /api/subscribe to post subscriber to mailchimp
