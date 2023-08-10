@@ -56,7 +56,6 @@ export async function getStaticProps({ params: { slug } }){
                     rehypeCodeTitles,
                     rehypePrism
                 ],
-                format: 'mdx'
             },
             scope: data,
             parseFrontmatter: false 
