@@ -11,19 +11,19 @@ Feel free to [reach out](https://abneuro.vercel.app/) to me if you have any addi
 ## ✨ Pages 
 
 1. **Home Page**: <br/>
-<img width="60%" src="./public/images/home_page.png" alt="homepage" /> 
+<img width="100%" src="./public/images/home_page.png" alt="homepage" /> 
 
 2. **Tutorials Page**: <br/>
-<img width="60%" src="./public/images/tutorial_page.png" alt="tutorialspage" /> 
+<img width="100%" src="./public/images/tutorial_page.png" alt="tutorialspage" /> 
 
 3. **Blog Page**: <br/>
-<img width="60%" src="./public/images/blog_page.png" alt="blogpage" /> 
+<img width="100%" src="./public/images/blog_page.png" alt="blogpage" /> 
 
 4. **Projects Page**: <br/>
-<img width="60%" src="./public/images/projects_page.png" alt="projectspage" /> 
+<img width="100%" src="./public/images/projects_page.png" alt="projectspage" /> 
 
 5. **Contact Page**: <br/>
-<img width="60%" src="./public/images/contact_page.png" alt="contactpage" /> 
+<img width="100%" src="./public/images/contact_page.png" alt="contactpage" /> 
 
 ## ⚡️ Technologies 
 
