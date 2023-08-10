@@ -6,7 +6,7 @@ Two years ago, I first got introduced to web development. It was all new and fas
 
 I had a lot of fun building this. I got to play with lots of different technologies while growing my knowledge of web development.
 
-Feel free to [reach out](https://abneuro.vercel.app/contact) to me if you have any additional questions. There are lots of features that still need to be implemented!
+Feel free to [reach out](https://abneuro.vercel.app/) to me if you have any additional questions. There are lots of features that still need to be implemented!
 
 ## ✨ Pages 
 
