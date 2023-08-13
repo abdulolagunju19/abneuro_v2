@@ -44,7 +44,7 @@ export default function ContactMe() {
             title,
             description
           }}
-        />
+      />
       <Container>
         <Head>
           <title>Want to connect further?</title>

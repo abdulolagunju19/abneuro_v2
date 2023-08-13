@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 
 import { ChakraProvider, ColorModeProvider, useColorMode } from '@chakra-ui/react';
 import { Global, css } from '@emotion/react';
@@ -52,23 +53,42 @@ export default function App({ Component, pageProps }) {
   //every time there is a route change, the nprogress loading bar is called
   useEffect(() => {
     router.events.on('routeChangeStart', () => NProgress.start()); 
-    router.events.on('routeChangeComplete', () => NProgress.done()); 
+
+    //subscribe to routeChangeComplete event and log pages to google analytics while after nprogress animation
+    router.events.on('routeChangeComplete', () => NProgress.done());
+
+    //if there is an error, complete nprogress animation
     router.events.on('routeChangeError', () => NProgress.done()); 
-  }, [router])
+  }, [router]);
 
   //necessary so Chakra UI can be used
+  //Google Analytics Tracking Code
+  //afterInteractive: For scripts that can fetch and execute after the page is interactive, such as tag managers and analytics.
   return (
-    <ChakraProvider resetCSS theme={customTheme}>
-      <ColorModeProvider
-        options={{
-          initialColorMode: "light",
-          useSystemColorMode: true,
-        }}
-      >
-        <GlobalStyle>
-          <Component {...pageProps} />
-        </GlobalStyle>
-      </ColorModeProvider>
-    </ChakraProvider>
+    <>
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`} strategy='afterInteractive' />
+      <Script id="google-analytics" strategy='afterInteractive'>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.NEXT_PUBLIC_MEASUREMENT_ID}', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
+      <ChakraProvider resetCSS theme={customTheme}>
+        <ColorModeProvider
+          options={{
+            initialColorMode: "light",
+            useSystemColorMode: true,
+          }}
+        >
+          <GlobalStyle>
+            <Component {...pageProps} />
+          </GlobalStyle>
+        </ColorModeProvider>
+      </ChakraProvider>
+    </>
   )
 }
