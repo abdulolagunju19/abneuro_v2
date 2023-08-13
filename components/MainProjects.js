@@ -43,7 +43,7 @@ const MainProjects = () => {
             </Card>
             <Card
                 title="Agropellis"
-                href="https://github.com/abdulolagunju19/agrostore"
+                href="https://github.com/abdulolagunju19/agropellis"
                 src="/images/agropellis.png"
                 alt='Agropellis'
                 color={iconColor[colorMode]}
@@ -52,7 +52,7 @@ const MainProjects = () => {
             </Card>
             <Card
                 title="Neurocoin"
-                href="https://blockchain-app.onrender.com/"
+                href="https://github.com/abdulolagunju19/blockchain-app"
                 src="/images/neurocoin.png"
                 alt='Neurocoin'
                 color={iconColor[colorMode]}
