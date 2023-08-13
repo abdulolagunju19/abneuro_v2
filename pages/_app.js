@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     router.events.on('routeChangeStart', () => NProgress.start()); 
 
-    //subscribe to routeChangeComplete event and log pages to google analytics while after nprogress animation
+    //subscribe to routeChangeComplete and finish nprogress animation
     router.events.on('routeChangeComplete', () => NProgress.done());
 
     //if there is an error, complete nprogress animation

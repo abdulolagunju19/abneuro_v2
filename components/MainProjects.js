@@ -39,7 +39,7 @@ const MainProjects = () => {
                 alt='Neurodiscite'
                 color={iconColor[colorMode]}
             >
-                A web app designed for neuroscience students.
+                A web app designed for neuroscience students. Built with Next.js and Supabase.
             </Card>
             <Card
                 title="Agropellis"
@@ -48,7 +48,7 @@ const MainProjects = () => {
                 alt='Agropellis'
                 color={iconColor[colorMode]}
             >
-                A farm inspired ecommerce site.
+                A farm inspired ecommerce site. Built with Next.js, Zustand, and Stripe.
             </Card>
             <Card
                 title="Neurocoin"
@@ -66,7 +66,25 @@ const MainProjects = () => {
                 alt='MaskOff'
                 color={iconColor[colorMode]}
             >
-                A skin detection app made using OpenCV and ML models.
+                A skin detection app made using OpenCV and ML models. Built with Streamlit.
+            </Card>
+            <Card
+                title="PUF"
+                href="https://www.prairieurbanfarm.ca/"
+                src="/images/puf.jpg"
+                alt='PUF'
+                color={iconColor[colorMode]}
+            >
+                Developed a website for Prairie Urban Farm, a community food system in the University of Alberta's South Campus.
+            </Card>
+            <Card
+                title="WILTB"
+                href="https://whattobe.vercel.app/"
+                src="/images/wiltb.jpg"
+                alt='WILTB'
+                color={iconColor[colorMode]}
+            >
+                Interviewed professors to help students learn about different professions. Built with Next.js.
             </Card>
         </>
     )
