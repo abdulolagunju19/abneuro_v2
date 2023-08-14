@@ -63,6 +63,8 @@ Markdown makes it really easy to write blog posts.
 2. Add pictures to the projects page.
 3. Adding back the bubbles from abneuro version 1.
 4. Adding the number of page views and users who have viewed the site.
+5. Add a dynamic sitemap.
+6. Reduce amount of data per request for dynamic pages (migrate away from next-mdx-remote?).
 
 ## 👏 Contribute 
 
