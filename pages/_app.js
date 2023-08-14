@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 
+//want to compare google analytics to vercel analytics data
+import { Analytics } from '@vercel/analytics/react';
+
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 
@@ -86,6 +89,7 @@ export default function App({ Component, pageProps }) {
         >
           <GlobalStyle>
             <Component {...pageProps} />
+            <Analytics />
           </GlobalStyle>
         </ColorModeProvider>
       </ChakraProvider>
