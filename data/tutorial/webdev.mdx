@@ -44,77 +44,77 @@ You now have your project, pretty easy right?
 
 Let’s go over what a bunch of the files mean. These are the short notes I recorded when I tried to learn more about web development. They are not supposed to give you the full picture, but give you more support when you try to create your own project.
 
-**Package.json**: lives in root directory of project; needs name, version, scripts, dependencies; package version number, human readable, dependencies needed by project, enables npm (uses javascript and command line to run programs) or yarn to start project; look here to see the cool npm packages I used in my code
+**Package.json**: Located in the root directory of the project, the package.json file serves as a blueprint for the project. It contains essential information like the project's name, version, scripts, and dependencies. The listed dependencies are vital for the project's functionality. This file enables tools like npm (which employs JavaScript and the command line) or yarn to initialize the project. It's also the reference point to explore the npm packages integrated into the codebase.
 
-**Yarn.lock**: locks down dependencies in package.json file, so, if dependency changed by creator, you don’t get different dependencies, what you imported will be in this file
+**Yarn.lock**: Locks down dependencies in package.json file, so, if the dependency is changed by creator, you don’t get different dependencies. This prevents unintended changes in the imported dependencies, preserving the stability of the project.
 
-**.gitignore**: git tracks changes in files, gitignore just lists files you want left alone be git
+**.gitignore**: While Git monitors changes in files, the .gitignore file explicitly specifies which files Git should ignore. By listing these files, you can keep sensitive or irrelevant files out of version control, thereby focusing on the essential components that need tracking.
 
-**Theme.js**: how you want your fonts, etc to look like, imported from chakra ui, const overrides means all our fonts will be the same, we change from default node.js fonts
+**Theme.js**: How you want your fonts to look like, etc. The styling is imported from Chakra UI. The inclusion of const overrides ensures a consistent design across the fonts, replacing the default fonts typically used with Node.js.
 
-**Prism.js**: styling for website, makes the code on your website look nice
+**Prism.js**: Styling for the code displayed on the site.
 
-**Public**: where I keep images, sitemap
+**Public**:  The designated space for storing images and the sitemap.
 
-**Lib/mdx.js**: connect mdx files using slug to blog, show word count and reading time, get mdx components, I think grey matter organizes title, process.cwd() get working directory of node.js file, export async has something to do with scheduling code to be run later, I think rendertostring has something to do with measuring time of accessing mdx files, rehype and remark take care of headings, code titles? .reduce executes reducer function, I think its adding the mdx files to the blog, basically get url of all mdx files, get static props gets each blog post, data passed to MDXContent called props, context passes data without individually passing each props
+**Lib/mdx.js**: Within this file, mdx.js, a connection is established with MDX files using the renderToString function from next-mdx-remote. An object is created for each blog post. The object also presents information about word count and reading time, along with the slug (another name for dynamic URL). The integration of gray-matter helps parse the Markdown file into a frontmatter and content variable. The usage of process.cwd() retrieves the working directory of the Node.js file, so we can get the names of the Markdown files. The export async segment relates to scheduling code execution, as retrieving all of the files should occur on a different thread so the JavaScript main thread is not blocked. rehype and remark are employed for handling headings and code titles. The .reduce function executes the reducer function, which appears to involve adding MDX files to the blog. This segment essentially compiles the URLs of all MDX files. get static props facilitates retrieval of each blog post, with the data passed to MDXContent through props. The context mechanism appears to convey data collectively, bypassing the need to individually pass each prop.
 
-**Layouts/blog.js**: use react, add date, use container from components for style, get slug and connect it to mdx files from data folder, deals with getting path of file, add al horford picture to blog posts
+**Layouts/blog.js**: This is the standard design of each blog page. blog.js augments the design of blog posts. It adds the date, avatar, and container component for styling. The slug is connected to MDX files within the data folder, resolving the file path.
 
-**Layout/simplestats.js**: same thing basically as layout/blog.js, just replaced blog route with simplestats 
+**Layout/simplestats.js**: The same role as the layout for blog.js. In the new version of abneuro, I removed this file as it was unnecessary. I just passed the name of the other markdown folder if I had another set of posts. 
 
-**/data**: contains markdown files for simplestats and blog page, this is where the blog posts are, mdx will turn the files here to jsx
+**/data**: Containing markdown files for both simplestats and blog pages, the /data directory houses the blog posts. 
 
-**Components/BlogPost.js & Components/SimpleStatsPost.js**:  use colormode to set text color in light and dark mode, add information from post and pass it to blog layout, link blog layout to slug (URL)
+**Components/BlogPost.js & Components/SimpleStatsPost.js**:  These components employ colormode to establish text color for both light and dark modes. Information from the respective posts is integrated and passed to the blog layout. The blog layout is linked to the slug (URL).
 
-**Components/Footer.js**: use footer layout, connect to index, add links 
+**Components/Footer.js**: Footer.js establishes a connection with the index and adds links for navigation.
 
-**Components/DarkModeSwitch**: use chakra dark mode icon 
+**Components/DarkModeSwitch**: This component employs the Chakra UI dark mode icon to facilitate switching between light and dark modes.
 
-**Components/Container**: contains default page layout, children is content of page, import footer at end of container 
+**Components/Container**: The default page layout is defined, with the children component encapsulating the page content. Additionally, the footer is imported and placed at the end of the container.
 
-**Components/MDXComponents**: map the markdown element to html, add styles to html, pass props to p tag, can edit style of blog pages here (p tag, header tags, etc.)
+**Components/MDXComponents**: This component maps the markdown elements to react components, introducing new styles to the Markdown default element structure. For example, you can modify the <p> tag annd extend the style of the <p> tag.
 
-**Pages/api/hello.js**: simple api router using json 
+**Pages/api/hello.js**: Serving as a simple API router using JSON, hello.js is responsible for handling API requests. It is the default Next.js api route.
 
-**Pages/blog/[slug].js**: create url for markdown files, so I can create as many markdown files as I want and they are connected to blog page, dynamic route, next/router shows dynamic route to user, grab dynamic rout using router.query, paths mapped to getStaticpaths, working with 1 requested blog post, plugins for page styling 
+**Pages/blog/[slug].js**: This page establishes URLs for markdown files, allowing the creation of multiple markdown files connected to the blog page. It utilizes dynamic routing and involves the Next.js router to present dynamic routes to users. The router.query function extracts dynamic route parameters. The paths are mapped to getStaticPaths, focusing on a single requested blog post. The page styling is enhanced through the application of plugins.
 
-**Pages/simplestats/[slug].js**: same as Pages/blog/[slug].js but links to simplestats , animation for individual blog pages
+**Pages/simplestats/[slug].js**: Same as Pages/blog/[slug].js but links to posts in simplestats. The animation for individual blog pages is passed to the element encapsulating the container for each blog post using animate.css.
 
-**Pages/_app.js**: import mdxcomponents, wrap it in components; entry point to app, wrap app in chakra ui, use nprogress for progress bar
+**Pages/_app.js**: The entry point to the app, _app.js imports MDXComponents, wrapping it within the Components structure. The entire application is enveloped in Chakra UI. Additionally, the nprogress library is employed to display a progress bar.
 
-**Pages/_document.js**: add to html and body tags, override default nextjs document file, google analytics script for tracking page views
+**Pages/_document.js**: Overrides the default Next.js document file, incorporating a Google Analytics script for tracking page views.
 
-**Pages/blog.js**: return how blog page looks like, number of posts with .length, search icon, get posts from blog, sort by date published, tools from chakra ui 
+**Pages/blog.js**: This page outlines the appearance of the blog page that shows a list of the blog posts. It presents the number of posts using the .length property, incorporates a search icon, retrieves posts from the blog, sorts them by publication date, and utilizes tools from Chakra UI.
 
-**Pages/contactme.js**: simple contact me js file with form to get users to subscribe, subscription done by mailchimp, p5.js iframe
+**Pages/contactme.js**: A straightforward "Contact Me" JavaScript file housing a form for user subscriptions. The subscription process is facilitated through Mailchimp. The inclusion of a p5.js iframe adds to the page's functionality.
 
-**Pages/index.js**: root of website, first page user sees when they select url, animate.css for page transition, import container for page layout, chakra ui for user interface and styling, animated hand made from keyframes, react-responsive so that page looks good on mobile, bubbles made with react-tsparticles, typewriter for moving text, import techstack from components, create specific footer for mobile screens
+**Pages/index.js**: The root of the website, index.js is the first page users encounter upon accessing the URL. The page transition employs animate.css, while the container component is imported for page layout. Chakra UI contributes to the user interface and styling. An animated hand crafted from keyframes is featured, and react-responsive ensures a polished appearance on mobile devices. The bubbles are generated using react-tsparticles, a typewriter effect enhances text display, and the techstack is imported from components. Furthermore, a tailored footer is created specifically for mobile screens.
 
-**Pages/simplestats.js**: similar to Pages/blog.js 
+**Pages/simplestats.js**: Similar to Pages/blog.js. 
 
 ### Some important information:
-1. Use export default function with arrow notation to define your functions in your pages, then import with {} notation
-2. In BlogPost.js, you pass you posts into the variable props, and then you format with chakra ui and format it in a way that lets you use links to specific individual blog posts
-3. Use mailchimp api to connect subscribers to your mail list
-4. .env.local is where you say what kind of environment variables you use, store environment variables on vercel so they can’t be taken from your github repository
-5. Asynchronous functions load before they fully run, so they are valuable when you want to gather data from files before using that data
-6. _App.js and document.js allow you to override default nextjs template and format your files the way you want to
-7. getStaticProps will fetch your blog posts
-8. you sort the blog posts by the date they were published
-9. getAllFilesFromFrontMatter allows you to get all of your mdx files, mdx is same as md but it lets you use react components
-10. use fs in getAllFilesFromFrontMatter to read your directory blog in folder data, then you read the specific mdx file using grey matter, return mdx data and URL
-11. to get a specific blog post, we use our dynamic [slug].js, you read values/files in function using getStaticProps, then use GetFileBySlug from mdx.js to fetch mdx file
-12. use await renderToString to get content from file, then you forward that to MDXComponents so it can be rendered to HTML
-13. Return reading time, etc to make page look good
-14. getStaticPaths: tells application about different URLS in website, fallback false so that if URL doesn’t exist, bring out 404 page
+1. Use export default function with arrow notation to define your functions in your pages, then import with {} notation.
+2. In BlogPost.js, you pass you posts into the variable props using getStaticProps, and then you format the posts with Chakra UI, and format it in a way that lets you use links to specific individual blog posts.
+3. To streamline subscriber management, integrate the Mailchimp API to connect subscribers to your mailing list.
+4. .env.local is where you say what kind of environment variables you use, store the environment variables on Vercel so they can’t be taken from your GitHub repository.
+5. Asynchronous functions load before they fully execute, so they are valuable when you want to gather data from files before using that data.
+6. _App.js and document.js allow you to override default Next.js template and format your files the way you want to.
+7. getStaticProps will fetch your blog posts.
+8. You sort the blog posts by the date they were published.
+9. getAllFilesFromFrontMatter allows you to get all of your mdx files, mdx is same as md but it lets you use React components.
+10. use fs in getAllFilesFromFrontMatter to read your directory blog in the folder data, then you read the specific mdx file using grey matter, return mdx data and URL.
+11. To get a specific blog post, we use our dynamic [slug].js, you read values/files in function using getStaticProps, then use GetFileBySlug from mdx.js to fetch mdx file.
+12. Use await renderToString to get content from file, then you forward that to MDXComponents so it can be rendered to HTML.
+13. Return reading time, etc to make page look good.
+14. getStaticPaths: tells application about different URLS in website, fallback false so that if URL doesn’t exist, return out 404 page.
 15. const content = hydrate 
     * hydrate makes components/content interactable with mdx
-16. container.js, remember to add meta tags for seo
-17. for viewcounter, use viewcount api and swr(remote data fetching), maybe need firebase database
-18. useColorMode interacts with darkmode and sets color of page
-19. children passed in container after formatting done
-20. if you use const function, make sure you use export default
-21. async callback executes when file loading has completed, requires callback function for that reason
+16. In Container.js, remember to add meta tags for seo.
+17. For viewcounter, use viewcount api and swr (remote data fetching), you need a Firebase database.
+18. useColorMode interacts with darkmode and sets the color of page.
+19. Children passed in container after formatting done.
+20. If you use const function, make sure you use export default.
+21. async callback executes when file loading has completed, requires callback function for that reason.
 22. fs.readdirSync
     * returns the file name array with data of your file, but it will stop any further execution of your code until the read process ends., synchronous
 23. files.reduce
