@@ -18,8 +18,8 @@ const Articles = () => {
             </Heading>
             <OrderedList spacing={3}>
                 <ListItem fontSize="16px" color={colorSecondary[colorMode]}>
-                <Link color={colorSecondary[colorMode]} fontSize="16px" href='/tutorial/cafe' isExternal>
-                    Cafe C++ Project <ExternalLinkIcon mx='5px' />
+                <Link color={colorSecondary[colorMode]} fontSize="16px" href='/tutorial/webdev' isExternal>
+                    Next.js Web Development <ExternalLinkIcon mx='5px' />
                 </Link>
                 </ListItem>
                 <ListItem fontSize="16px" color={colorSecondary[colorMode]}>
